@@ -2,13 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+
+
+/* globals.css yoki index.css */
 :root {
-  --background: 0 0% 100%;
-  --foreground: 222.2 84% 4.9%;
+  /* Light mode gradient */
+  --site-gradient-light: linear-gradient(120deg, #f0f4f8, #d9e2ec);
+
+  /* Dark mode gradient */
+  --site-gradient-dark: linear-gradient(120deg, #1e1f2f, #3b3d5c);
 }
 
-.dark {
-  --background: 222.2 84% 4.9%;
-  --foreground: 210 40% 98%;
+/* Tailwind bilan ishlatish uchun */
+.bg-site-gradient {
+  background: var(--site-gradient-light);
 }
 
+.dark .bg-site-gradient {
+  background: var(--site-gradient-dark);
+}

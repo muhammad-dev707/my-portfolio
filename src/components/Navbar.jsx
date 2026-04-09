@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { FaSun, FaMoon, FaBars, FaTimes } from 'react-icons/fa';
-import { useAuth } from '../context/AuthContext';
 
 const navLinks = [
   { name: 'Home', href: '#hero' },
@@ -13,9 +12,8 @@ const navLinks = [
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
 
-  // Dark mode init
   useEffect(() => {
     const saved = localStorage.getItem('darkMode') === 'true';
     setDarkMode(saved);
@@ -30,66 +28,107 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="fixed top-6 inset-x-0 z-50">
-      <div className="max-w-7xl mx-auto px-6">
-        {/* MAIN BAR */}
-        <div className="flex items-center justify-between rounded-2xl bg-background/70 backdrop-blur-xl border border-border/40 shadow-lg px-6 py-4">
+    <nav className="fixed inset-x-0 top-4 z-50 px-4">
+      <div className="max-w-7xl mx-auto">
+
+        {/* ==================== MAIN NAVBAR ==================== */}
+        <div className="flex items-center justify-between px-6 py-4 
+          bg-[#0f0f1a]/95 backdrop-blur-2xl 
+          border border-violet-500/30 rounded-3xl 
+          shadow-2xl shadow-black/50">
 
           {/* LOGO */}
           <a
             href="#hero"
-            className="relative text-xs font-semibold tracking-[0.35em] uppercase text-foreground/70 hover:text-foreground transition"
+            className="text-xl font-bold tracking-widest text-white flex items-center gap-1.5 
+              hover:text-violet-300 transition-colors"
           >
-            &lt;developer /&gt;
+            &lt;<span className="text-violet-400">DEV</span> /&gt;
           </a>
 
           {/* DESKTOP MENU */}
-          <div className="hidden md:flex items-center gap-10">
+          <div className="hidden md:flex items-center gap-8 lg:gap-10">
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
-                className="relative text-xs uppercase tracking-widest text-foreground/70 hover:text-foreground transition group"
+                className="relative text-sm font-medium uppercase tracking-[1.5px] 
+                  text-slate-300 hover:text-white transition-all duration-300 group"
               >
                 {link.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-gradient-to-r from-primary to-accent group-hover:w-full transition-all duration-300" />
+                <span className="absolute -bottom-1 left-0 h-[2px] w-0 bg-gradient-to-r 
+                  from-violet-400 to-cyan-400 group-hover:w-full transition-all duration-300" />
               </a>
             ))}
 
-            {/* THEME TOGGLE */}
+            {/* Dark Mode Toggle (Desktop) */}
             <button
               onClick={toggleDark}
-              className="p-2 rounded-full bg-muted/20 hover:bg-muted/40 transition"
+              className="p-3 rounded-2xl bg-white/10 hover:bg-white/20 
+                text-slate-300 hover:text-white border border-white/10 
+                transition-all active:scale-95"
               aria-label="Toggle theme"
             >
-              {darkMode ? <FaSun size={14} /> : <FaMoon size={14} />}
+              {darkMode ? <FaSun size={19} /> : <FaMoon size={19} />}
             </button>
           </div>
 
-          {/* MOBILE BUTTONS */}
-          <div className="md:hidden flex items-center gap-4">
-            <button onClick={toggleDark}>
-              {darkMode ? <FaSun size={18} /> : <FaMoon size={18} />}
+          {/* MOBILE RIGHT SIDE */}
+          <div className="md:hidden flex items-center gap-3">
+            {/* Dark Mode Toggle */}
+            <button
+              onClick={toggleDark}
+              className="p-3 rounded-2xl bg-white/10 hover:bg-white/20 
+                text-slate-300 hover:text-white border border-white/10 
+                transition-all active:scale-95"
+              aria-label="Toggle theme"
+            >
+              {darkMode ? <FaSun size={19} /> : <FaMoon size={19} />}
             </button>
-            <button onClick={() => setIsOpen(!isOpen)}>
-              {isOpen ? <FaTimes size={22} /> : <FaBars size={22} />}
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="p-3 rounded-2xl bg-white/10 hover:bg-white/20 
+                text-slate-300 hover:text-white border border-white/10 
+                transition-all active:scale-95"
+              aria-label="Toggle menu"
+            >
+              {isOpen ? <FaTimes size={21} /> : <FaBars size={21} />}
             </button>
           </div>
         </div>
 
-        {/* MOBILE MENU */}
+        {/* ==================== MOBILE MENU ==================== */}
         {isOpen && (
-          <div className="mt-4 rounded-2xl bg-background/90 backdrop-blur-xl border border-border/40 p-6 space-y-6 md:hidden shadow-xl">
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
+          <div className="md:hidden mt-3 px-1">
+            <div className="bg-[#0f0f1a]/95 backdrop-blur-2xl border border-violet-500/30 
+              rounded-3xl py-6 px-4 shadow-2xl shadow-black/60">
+              
+              <div className="flex flex-col gap-1">
+                {navLinks.map((link) => (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    onClick={() => setIsOpen(false)}
+                    className="block px-6 py-4 text-base font-medium text-slate-200 
+                      hover:text-white hover:bg-violet-500/10 rounded-2xl 
+                      transition-all active:bg-violet-500/20"
+                  >
+                    {link.name}
+                  </a>
+                ))}
+              </div>
+
+              <button
                 onClick={() => setIsOpen(false)}
-                className="block text-sm uppercase tracking-widest text-foreground/80 hover:text-primary transition"
+                className="mt-6 w-full py-3.5 text-sm font-medium tracking-widest 
+                  text-slate-400 hover:text-white border border-white/10 
+                  rounded-2xl hover:border-violet-400/50 transition-all"
               >
-                {link.name}
-              </a>
-            ))}
+                YOPISH
+              </button>
+            </div>
           </div>
         )}
       </div>

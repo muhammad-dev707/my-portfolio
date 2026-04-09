@@ -25,53 +25,53 @@ export default function Experience() {
   return (
     <section
       id="experience"
-      className="relative py-32 overflow-hidden bg-[#f8f6f2]"
+      className="relative py-32 
+        bg-[#0a0a0f] 
+        bg-gradient-to-b from-[#0a0a0f] via-[#1a1433] to-[#0a0a0f]"
     >
-      {/* Soft Milk Gradient Background */}
-      <div className="absolute inset-0">
-        <div className="absolute -top-40 -left-40 w-[500px] h-[500px] bg-[#eae6df] rounded-full blur-[120px]" />
-        <div className="absolute bottom-0 -right-40 w-[500px] h-[500px] bg-[#e6e1d9] rounded-full blur-[120px]" />
-      </div>
+      {/* Container */}
+      <div className="relative container mx-auto px-6">
 
-      {/* subtle grid */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.04)_1px,transparent_1px)] bg-[size:60px_60px]" />
-
-      <div className="relative max-w-5xl mx-auto px-6">
-        
         {/* Header */}
-        <div className="mb-24">
-          <span className="block mb-6 text-xs tracking-[0.35em] uppercase text-gray-500">
+        <div className="mb-24 text-center md:text-left">
+          <span className="block mb-6 text-xs tracking-[0.35em] uppercase 
+            text-violet-400 font-medium">
             Experience
           </span>
 
-          <h2 className="text-4xl md:text-6xl font-bold leading-tight text-gray-900">
+          <h2 className="text-4xl md:text-6xl font-bold leading-tight text-white">
             Ish <br />
-            <span className="text-gray-500">tajribam</span>
+            <span className="text-slate-400">tajribam</span>
           </h2>
         </div>
 
         {/* Timeline */}
-        <div className="relative border-l border-gray-300 pl-10 space-y-20">
+        <div className="relative border-l border-white/10 pl-10 space-y-20">
           {experiences.map((exp, i) => (
-            <div key={i} className="relative">
-              
-              {/* Dot */}
-              <span className="absolute -left-[11px] top-2 w-5 h-5 rounded-full bg-[#f8f6f2] border-2 border-gray-400" />
+            <div key={i} className="relative group">
 
-              <div className="bg-white/70 backdrop-blur-xl border border-gray-200 rounded-2xl p-8 shadow-md hover:shadow-xl transition">
-                
-                <span className="text-sm text-gray-600 font-semibold">
+              {/* Timeline Dot */}
+              <span className="absolute -left-[11px] top-2 w-5 h-5 rounded-full 
+                bg-[#0a0a0f] border-4 border-violet-500 
+                group-hover:border-fuchsia-400 transition-colors" />
+
+              {/* Card */}
+              <div className="bg-white/5 backdrop-blur-2xl border border-white/10 
+                rounded-3xl p-8 shadow-xl transition-all duration-300 
+                hover:border-violet-500/50 hover:-translate-y-1 
+                hover:shadow-2xl hover:shadow-violet-500/10">
+
+                <span className="text-sm font-medium text-violet-300 tracking-wide">
                   {exp.year}
                 </span>
 
-                <h3 className="text-2xl font-semibold mt-2 mb-3 text-gray-900">
+                <h3 className="text-2xl font-semibold mt-3 mb-4 text-white">
                   {exp.role}
                 </h3>
 
-                <p className="text-gray-600 text-lg leading-relaxed">
+                <p className="text-slate-400 text-[17px] leading-relaxed">
                   {exp.description}
                 </p>
-
               </div>
             </div>
           ))}

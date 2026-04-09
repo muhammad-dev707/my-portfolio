@@ -23,7 +23,7 @@ export const projects = [
     description: "Real vaqtda ob-havo ma'lumotlari, qidiruv va favorites funksiyasi.",
     tech: ["React", "Tailwind", "OpenWeather API"],
     image: "https://m.media-amazon.com/images/I/51aV+SnOl-L.png",
-    live: "https://v0-weather-app-c5ykmruwu-nurmuhammad1.vercel.app/",
+    live: "https://v0-weather-app-ui-neon.vercel.app/",
     github: "https://github.com/muhammad-dev707",
   },
 ];

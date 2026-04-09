@@ -7,12 +7,11 @@ export default function Contact() {
   const [loading, setLoading] = useState(false);
 
   const TELEGRAM_TOKEN = "8455385482:AAGjIgkRksbWSBFeTo_gLZuh1TupgbpDk4Y";
-  const CHAT_ID = 6653089120; // Sizning Telegram ID yoki kanal ID
+  const CHAT_ID = 6653089120;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Telegram username tekshiruvi
     const telegramRegex = /^@([a-zA-Z0-9_]{5,32})$/;
     if (!telegramRegex.test(telegramUsername)) {
       alert("Iltimos, to‘g‘ri Telegram username kiriting (masalan: @username).");
@@ -53,44 +52,47 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="relative py-32 overflow-hidden bg-background">
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute -top-40 left-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 -right-40 w-[500px] h-[500px] bg-accent/10 rounded-full blur-3xl" />
-      </div>
+    <section
+      id="contact"
+      className="relative py-32 bg-site-gradient dark:bg-site-gradient"
+    >
+      <div className="relative container mx-auto px-6">
 
-      <div className="relative max-w-6xl mx-auto px-6">
         {/* Header */}
-        <div className="max-w-3xl mb-24">
-          <span className="block mb-6 text-xs tracking-[0.35em] uppercase text-foreground/50">
+        <div className="max-w-3xl mb-24 text-center md:text-left">
+          <span className="block mb-6 text-xs tracking-[0.35em] uppercase 
+            text-gray-500 dark:text-violet-300 font-medium">
             Contact
           </span>
-          <h2 className="text-4xl md:text-6xl font-bold leading-tight">
+          <h2 className="text-4xl md:text-6xl font-bold leading-tight 
+            text-gray-900 dark:text-white">
             Keling, <br />
-            <span className="text-foreground/60">suhbatlashamiz</span>
+            <span className="text-gray-500 dark:text-slate-400">suhbatlashamiz</span>
           </h2>
-          <p className="mt-6 text-lg text-foreground/70">
+          <p className="mt-6 text-lg text-gray-700 dark:text-slate-400">
             Loyiha, hamkorlik yoki shunchaki salomlashish uchun bemalol yozishingiz mumkin.
           </p>
         </div>
 
         {/* Contact Info + Form */}
         <div className="grid md:grid-cols-2 gap-16 items-start">
+          
           {/* Info panel */}
           <div className="space-y-10">
             <div>
-              <h3 className="text-xl font-semibold mb-2">Telegram</h3>
+              <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
+                Telegram
+              </h3>
               <a
                 href="https://t.me/developsystem"
-                className="text-lg text-primary hover:underline"
+                className="text-lg text-violet-600 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300 transition-colors"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 @developsystem
               </a>
             </div>
-
-            <p className="text-foreground/60 text-lg max-w-sm">
+            <p className="text-gray-700 dark:text-slate-400 text-lg max-w-sm">
               Odatda xabarlarga tez javob beraman. Qisqa va aniq yozsangiz yetarli 🙂
             </p>
           </div>
@@ -98,39 +100,62 @@ export default function Contact() {
           {/* Form */}
           <form
             onSubmit={handleSubmit}
-            className="bg-background/70 backdrop-blur-xl border border-border/50 rounded-3xl p-10 shadow-lg space-y-6"
+            className="bg-white dark:bg-white/5 backdrop-blur-2xl 
+              border border-gray-200 dark:border-white/10 
+              rounded-3xl p-10 shadow-lg dark:shadow-2xl space-y-8"
           >
-            <input
-              type="text"
-              placeholder="Ismingiz"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-              className="w-full bg-transparent border-b border-border/60 py-3 outline-none focus:border-primary transition"
-            />
+            <div className="space-y-8">
+              <input
+                type="text"
+                placeholder="Ismingiz"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+                className="w-full bg-transparent border-b border-gray-300 dark:border-white/20 
+                  py-4 text-lg 
+                  text-gray-900 dark:text-white 
+                  placeholder:text-gray-500 dark:placeholder:text-slate-500 
+                  focus:border-violet-600 dark:focus:border-violet-400 
+                  outline-none transition-colors"
+              />
 
-            <input
-              type="text"
-              placeholder="Telegram username (masalan: @username)"
-              value={telegramUsername}
-              onChange={(e) => setTelegramUsername(e.target.value)}
-              required
-              className="w-full bg-transparent border-b border-border/60 py-3 outline-none focus:border-primary transition"
-            />
+              <input
+                type="text"
+                placeholder="Telegram username (masalan: @username)"
+                value={telegramUsername}
+                onChange={(e) => setTelegramUsername(e.target.value)}
+                required
+                className="w-full bg-transparent border-b border-gray-300 dark:border-white/20 
+                  py-4 text-lg 
+                  text-gray-900 dark:text-white 
+                  placeholder:text-gray-500 dark:placeholder:text-slate-500 
+                  focus:border-violet-600 dark:focus:border-violet-400 
+                  outline-none transition-colors"
+              />
 
-            <textarea
-              rows={5}
-              placeholder="Xabaringiz..."
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              required
-              className="w-full bg-transparent border-b border-border/60 py-3 outline-none resize-none focus:border-primary transition"
-            />
+              <textarea
+                rows={5}
+                placeholder="Xabaringiz..."
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                required
+                className="w-full bg-transparent border-b border-gray-300 dark:border-white/20 
+                  py-4 text-lg 
+                  text-gray-900 dark:text-white 
+                  placeholder:text-gray-500 dark:placeholder:text-slate-500 
+                  resize-none focus:border-violet-600 dark:focus:border-violet-400 
+                  outline-none transition-colors"
+              />
+            </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="mt-6 inline-flex items-center justify-center gap-2 w-full py-4 rounded-xl bg-primary text-primary-foreground font-semibold hover:bg-primary/90 transition-all hover:-translate-y-1 disabled:opacity-50"
+              className="mt-4 w-full py-4 rounded-2xl 
+                bg-violet-600 hover:bg-violet-700 dark:hover:bg-violet-500
+                text-white font-semibold transition-all 
+                hover:-translate-y-1 active:scale-[0.98] 
+                disabled:opacity-70 shadow-lg shadow-violet-500/30"
             >
               {loading ? "Yuborilmoqda..." : "Xabar yuborish →"}
             </button>
