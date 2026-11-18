@@ -1,137 +1,220 @@
 import React, { useState, useEffect } from 'react';
-import { FaSun, FaMoon, FaBars, FaTimes } from 'react-icons/fa';
+import { motion, AnimatePresence } from 'framer-motion';
+import { 
+  Menu, 
+  X, 
+  ArrowRight, 
+  MessageSquare,
+  Sparkles,
+  ExternalLink
+} from 'lucide-react';
 
 const navLinks = [
   { name: 'Home', href: '#hero' },
   { name: 'About', href: '#about' },
   { name: 'Skills', href: '#skills' },
   { name: 'Projects', href: '#projects' },
-  { name: 'Experience', href: '#experience' },
+  { name: 'Services', href: '#services' },
   { name: 'Contact', href: '#contact' },
 ];
 
-export default function Navbar() {
+export default function Navbar({ onOpenAdmin }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(true);
+  const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState('hero');
 
   useEffect(() => {
-    const saved = localStorage.getItem('darkMode') === 'true';
-    setDarkMode(saved);
-    document.documentElement.classList.toggle('dark', saved);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 30);
+
+      const sections = ['hero', 'about', 'skills', 'projects', 'services', 'contact'];
+      const scrollPos = window.scrollY + 220;
+
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element) {
+          const top = element.offsetTop;
+          const height = element.offsetHeight;
+          if (scrollPos >= top && scrollPos < top + height) {
+            setActiveSection(section);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const toggleDark = () => {
-    const value = !darkMode;
-    setDarkMode(value);
-    document.documentElement.classList.toggle('dark', value);
-    localStorage.setItem('darkMode', value);
+  const handleLinkClick = (href) => {
+    setIsOpen(false);
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
-    <nav className="fixed inset-x-0 top-4 z-50 px-4">
-      <div className="max-w-7xl mx-auto">
-
-        {/* ==================== MAIN NAVBAR ==================== */}
-        <div className="flex items-center justify-between px-6 py-4 
-          bg-[#0f0f1a]/95 backdrop-blur-2xl 
-          border border-violet-500/30 rounded-3xl 
-          shadow-2xl shadow-black/50">
-
-          {/* LOGO */}
-          <a
-            href="#hero"
-            className="text-xl font-bold tracking-widest text-white flex items-center gap-1.5 
-              hover:text-violet-300 transition-colors"
+    <>
+      <header
+        className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
+          scrolled ? 'py-3' : 'py-5'
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <nav
+            className={`flex items-center justify-between px-5 sm:px-6 py-3 rounded-2xl transition-all duration-300 ${
+              scrolled
+                ? 'bg-[#101019]/85 backdrop-blur-xl border border-white/10 shadow-[0_12px_40px_rgba(0,0,0,0.7)]'
+                : 'bg-[#141420]/60 backdrop-blur-md border border-white/5 shadow-lg'
+            }`}
           >
-            &lt;<span className="text-violet-400">DEV</span> /&gt;
-          </a>
-
-          {/* DESKTOP MENU */}
-          <div className="hidden md:flex items-center gap-8 lg:gap-10">
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className="relative text-sm font-medium uppercase tracking-[1.5px] 
-                  text-slate-300 hover:text-white transition-all duration-300 group"
-              >
-                {link.name}
-                <span className="absolute -bottom-1 left-0 h-[2px] w-0 bg-gradient-to-r 
-                  from-violet-400 to-cyan-400 group-hover:w-full transition-all duration-300" />
-              </a>
-            ))}
-
-            {/* Dark Mode Toggle (Desktop) */}
-            <button
-              onClick={toggleDark}
-              className="p-3 rounded-2xl bg-white/10 hover:bg-white/20 
-                text-slate-300 hover:text-white border border-white/10 
-                transition-all active:scale-95"
-              aria-label="Toggle theme"
+            {/* Logo Monogram */}
+            <a
+              href="#hero"
+              onClick={(e) => {
+                e.preventDefault();
+                handleLinkClick('#hero');
+              }}
+              className="flex items-center gap-3 group cursor-pointer"
             >
-              {darkMode ? <FaSun size={19} /> : <FaMoon size={19} />}
-            </button>
-          </div>
+              <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-[#141420] to-[#101019] border border-[#8B5CF6]/40 shadow-[0_0_20px_rgba(139,92,246,0.25)] group-hover:border-[#8B5CF6] group-hover:shadow-[0_0_25px_rgba(139,92,246,0.45)] transition-all duration-300">
+                {/* Custom Geometric N Monogram */}
+                <svg
+                  className="w-5 h-5 text-[#8B5CF6] transition-transform duration-300 group-hover:scale-110"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M6 19V5l12 14V5" />
+                </svg>
+                {/* Micro accent dot */}
+                <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-[#8B5CF6] shadow-[0_0_8px_#8B5CF6]" />
+              </div>
 
-          {/* MOBILE RIGHT SIDE */}
-          <div className="md:hidden flex items-center gap-3">
-            {/* Dark Mode Toggle */}
-            <button
-              onClick={toggleDark}
-              className="p-3 rounded-2xl bg-white/10 hover:bg-white/20 
-                text-slate-300 hover:text-white border border-white/10 
-                transition-all active:scale-95"
-              aria-label="Toggle theme"
-            >
-              {darkMode ? <FaSun size={19} /> : <FaMoon size={19} />}
-            </button>
+              <div className="flex flex-col text-left">
+                <span className="text-sm font-bold text-white tracking-tight font-display group-hover:text-[#C4B5FD] transition-colors">
+                  Nurmuhammad
+                </span>
+                <span className="text-[10px] text-[#A1A1AA] font-medium tracking-wider uppercase">
+                  Frontend Developer
+                </span>
+              </div>
+            </a>
 
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="p-3 rounded-2xl bg-white/10 hover:bg-white/20 
-                text-slate-300 hover:text-white border border-white/10 
-                transition-all active:scale-95"
-              aria-label="Toggle menu"
-            >
-              {isOpen ? <FaTimes size={21} /> : <FaBars size={21} />}
-            </button>
-          </div>
-        </div>
-
-        {/* ==================== MOBILE MENU ==================== */}
-        {isOpen && (
-          <div className="md:hidden mt-3 px-1">
-            <div className="bg-[#0f0f1a]/95 backdrop-blur-2xl border border-violet-500/30 
-              rounded-3xl py-6 px-4 shadow-2xl shadow-black/60">
-              
-              <div className="flex flex-col gap-1">
-                {navLinks.map((link) => (
+            {/* Desktop Navigation Links */}
+            <div className="hidden md:flex items-center gap-1 bg-[#08080D]/60 p-1 rounded-xl border border-white/5">
+              {navLinks.map((link) => {
+                const isActive = activeSection === link.href.replace('#', '');
+                return (
                   <a
                     key={link.name}
                     href={link.href}
-                    onClick={() => setIsOpen(false)}
-                    className="block px-6 py-4 text-base font-medium text-slate-200 
-                      hover:text-white hover:bg-violet-500/10 rounded-2xl 
-                      transition-all active:bg-violet-500/20"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleLinkClick(link.href);
+                    }}
+                    className={`relative px-4 py-1.5 rounded-lg text-xs font-semibold tracking-wide transition-all duration-200 ${
+                      isActive
+                        ? 'text-white'
+                        : 'text-[#A1A1AA] hover:text-white hover:bg-white/5'
+                    }`}
                   >
-                    {link.name}
+                    {isActive && (
+                      <motion.span
+                        layoutId="activeNavIndicator"
+                        className="absolute inset-0 rounded-lg bg-gradient-to-r from-[#8B5CF6] to-[#7C3AED] shadow-[0_0_15px_rgba(139,92,246,0.4)] z-0"
+                        transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+                      />
+                    )}
+                    <span className="relative z-10">{link.name}</span>
                   </a>
-                ))}
-              </div>
-
-              <button
-                onClick={() => setIsOpen(false)}
-                className="mt-6 w-full py-3.5 text-sm font-medium tracking-widest 
-                  text-slate-400 hover:text-white border border-white/10 
-                  rounded-2xl hover:border-violet-400/50 transition-all"
-              >
-                YOPISH
-              </button>
+                );
+              })}
             </div>
-          </div>
+
+            {/* Desktop Right CTA: "Let's Talk" Button */}
+            <div className="hidden sm:flex items-center gap-3">
+              <a
+                href="#contact"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleLinkClick('#contact');
+                }}
+                className="group relative inline-flex items-center gap-2 px-5 py-2 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-[#8B5CF6] via-[#7C3AED] to-[#6D28D9] shadow-[0_0_25px_rgba(139,92,246,0.35)] hover:shadow-[0_0_35px_rgba(139,92,246,0.6)] active:scale-95 transition-all duration-300"
+              >
+                <span>Let's Talk</span>
+                <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+              </a>
+            </div>
+
+            {/* Mobile Menu Toggle Button */}
+            <button
+              type="button"
+              onClick={() => setIsOpen(!isOpen)}
+              className="md:hidden flex items-center justify-center w-10 h-10 rounded-xl bg-white/5 border border-white/10 text-white hover:border-[#8B5CF6]/50 active:scale-95 transition-all"
+              aria-label="Toggle navigation menu"
+            >
+              {isOpen ? <X className="w-5 h-5 text-[#8B5CF6]" /> : <Menu className="w-5 h-5" />}
+            </button>
+          </nav>
+        </div>
+      </header>
+
+      {/* Elegant Mobile Navigation Drawer */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.25, ease: 'easeInOut' }}
+            className="fixed inset-x-4 top-20 z-40 md:hidden rounded-2xl bg-[#101019]/95 border border-white/10 backdrop-blur-2xl p-6 shadow-[0_20px_50px_rgba(0,0,0,0.85)]"
+          >
+            <div className="flex flex-col space-y-2">
+              {navLinks.map((link) => {
+                const isActive = activeSection === link.href.replace('#', '');
+                return (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleLinkClick(link.href);
+                    }}
+                    className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
+                      isActive
+                        ? 'bg-gradient-to-r from-[#8B5CF6] to-[#7C3AED] text-white shadow-[0_0_20px_rgba(139,92,246,0.3)]'
+                        : 'text-[#A1A1AA] hover:text-white hover:bg-white/5'
+                    }`}
+                  >
+                    <span>{link.name}</span>
+                    <span className="text-xs opacity-50 font-mono">0{navLinks.indexOf(link) + 1}</span>
+                  </a>
+                );
+              })}
+
+              <div className="pt-3 border-t border-white/10 mt-2">
+                <a
+                  href="#contact"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleLinkClick('#contact');
+                  }}
+                  className="flex items-center justify-center gap-2 w-full py-3 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-[#8B5CF6] via-[#7C3AED] to-[#6D28D9] shadow-lg shadow-[#8B5CF6]/30 active:scale-95 transition-all"
+                >
+                  <MessageSquare className="w-4 h-4" />
+                  <span>Let's Talk</span>
+                </a>
+              </div>
+            </div>
+          </motion.div>
         )}
-      </div>
-    </nav>
+      </AnimatePresence>
+    </>
   );
 }
